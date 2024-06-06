@@ -9,7 +9,8 @@ namespace MVCProject.Services
     public class DigitecServices : IDigitecServices
     {
         private readonly HttpClient _client;
-        private readonly string _baseUrl = "https://localhost:7016/api/Students";
+        private readonly string _studentsBaseUrl = "https://localhost:7016/api/Students";
+        private readonly string _transactionsBaseUrl = "https://localhost:7016/api/Transactions"; // URL pour les transactions
 
         public DigitecServices(HttpClient client)
         {
@@ -18,7 +19,7 @@ namespace MVCProject.Services
 
         public async Task<List<StudentM>> GetStudents()
         {
-            var response = await _client.GetAsync(_baseUrl);
+            var response = await _client.GetAsync(_studentsBaseUrl);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
@@ -31,7 +32,7 @@ namespace MVCProject.Services
 
         public async Task<StudentM> GetStudent(int id)
         {
-            var response = await _client.GetAsync($"{_baseUrl}/{id}");
+            var response = await _client.GetAsync($"{_studentsBaseUrl}/{id}");
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
@@ -44,7 +45,7 @@ namespace MVCProject.Services
 
         public async Task<List<TransactionM>> GetTransactions()
         {
-            var response = await _client.GetAsync($"{_baseUrl}/transactions");
+            var response = await _client.GetAsync(_transactionsBaseUrl); // Utilise l'URL correcte pour les transactions
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
@@ -57,14 +58,15 @@ namespace MVCProject.Services
 
         public async void PostStudent(StudentM student)
         {
-            var response = await _client.PostAsJsonAsync(_baseUrl, student);
+            var response = await _client.PostAsJsonAsync(_studentsBaseUrl, student);
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseBody);
         }
+
         public async Task RechargeAccount(int studentId, decimal amount)
         {
-            var response = await _client.PostAsJsonAsync($"{_baseUrl}/students/{studentId}/recharge", new { amount });
+            var response = await _client.PostAsJsonAsync($"{_studentsBaseUrl}/{studentId}/recharge", new { amount });
             response.EnsureSuccessStatusCode();
         }
     }
