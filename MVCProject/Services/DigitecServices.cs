@@ -56,6 +56,12 @@ namespace MVCProject.Services
             return transactions;
         }
 
+        public async Task AddTransaction(TransactionM transaction)
+        {
+            var response = await _client.PostAsJsonAsync(_transactionsBaseUrl, transaction);
+            response.EnsureSuccessStatusCode();
+        }
+
         public async void PostStudent(StudentM student)
         {
             var response = await _client.PostAsJsonAsync(_studentsBaseUrl, student);

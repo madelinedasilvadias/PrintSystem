@@ -19,11 +19,40 @@
         @foreach (var transaction in Model)
         {
             <tr>
-                <td>@transaction.Id</td>
-                <td>@transaction.StudentId</td>
+                <td>@transaction.TransactionID</td>
+                <td>@transaction.AccountID</td>
                 <td>@transaction.Amount</td>
-                <td>@transaction.TransactionDate.ToShortDateString()</td>
+                <td>@transaction.Date.ToShortDateString()</td>
             </tr>
         }
     </tbody>
 </table>
+
+<h2>Ajouter un montant</h2>
+
+<form asp-action="AddAmount" method="post" class="form-inline">
+    <div class="form-group">
+        <label for="amount">Montant à ajouter :</label>
+        <input type="number" class="form-control" id="amount" name="amount" required />
+    </div>
+    <div class="form-group">
+        <label for="accountId">Numéro de compte :</label>
+        <input type="number" class="form-control" id="accountId" name="accountId" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter Montant</button>
+</form>
+
+<h2>Afficher la balance</h2>
+
+<form asp-action="GetBalance" method="post" class="form-inline">
+    <div class="form-group">
+        <label for="balanceAccountId">Numéro de compte :</label>
+        <input type="number" class="form-control" id="balanceAccountId" name="accountId" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Afficher Balance</button>
+</form>
+
+@if (ViewBag.Balance != null)
+{
+    <h3>Balance du compte: @ViewBag.Balance</h3>
+}

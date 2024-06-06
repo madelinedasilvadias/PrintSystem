@@ -10,5 +10,6 @@ namespace MVCProject.Services
         Task<StudentM> GetStudent(int id);
         Task<List<TransactionM>> GetTransactions();
         Task RechargeAccount(int studentId, decimal amount);
+        Task AddTransaction(TransactionM transaction);
     }
 }

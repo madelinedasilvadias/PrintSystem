@@ -45,6 +45,28 @@ namespace MVCProject.Controllers
             return View(transactions);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddAmount(decimal amount, int accountId)
+        {
+            var transaction = new TransactionM
+            {
+                AccountID = accountId,
+                Amount = amount,
+                Date = DateTime.Now
+            };
+            await _digitecServices.AddTransaction(transaction);
+            return RedirectToAction("Transactions");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetBalance(int accountId)
+        {
+            var student = await _digitecServices.GetStudent(accountId);
+            ViewBag.Balance = student.Balance;
+            var transactions = await _digitecServices.GetTransactions();
+            return View("Transactions", transactions);
+        }
+
         public IActionResult Privacy()
         {
             return View();
