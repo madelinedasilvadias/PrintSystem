@@ -1,0 +1,14 @@
+@startuml
+class Transaction {
+    + TransactionID : int <<get>> <<set>>
+    + AccountID : int <<get>> <<set>>
+    + Amount : decimal <<get>> <<set>>
+    + StudentBalance : decimal <<get>> <<set>>
+    + AddMoney(amount:decimal) : void
+    + MakePayment(amount:decimal) : void
+    + GetStudentBalance() : decimal
+    + GetAmount() : decimal
+}
+Transaction --> "Date" DateTime
+Transaction --> "Account" Account
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class Classe {
+    + ClasseID : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class "ICollection`1"<T> {
+}
+Classe --> "Students<Student>" "ICollection`1"
+@enduml

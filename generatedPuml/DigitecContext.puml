@@ -1,0 +1,13 @@
+@startuml
+class DigitecContext {
+    + DigitecContext(options:DbContextOptions<DigitecContext>)
+    # <<override>> OnConfiguring(builder:DbContextOptionsBuilder) : void
+}
+class "DbSet`1"<T> {
+}
+DbContext <|-- DigitecContext
+DigitecContext --> "Accounts<Account>" "DbSet`1"
+DigitecContext --> "Classes<Classe>" "DbSet`1"
+DigitecContext --> "Students<Student>" "DbSet`1"
+DigitecContext --> "Transactions<Transaction>" "DbSet`1"
+@enduml

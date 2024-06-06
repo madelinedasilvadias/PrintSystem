@@ -1,0 +1,9 @@
+@startuml
+class Account {
+    + AccountID : int <<get>> <<set>>
+    + StudentID : int <<get>> <<set>>
+    + StudentBalance : decimal <<get>> <<set>>
+    + GetBalance() : decimal
+    + SetBalance(balance:decimal) : void
+}
+@enduml

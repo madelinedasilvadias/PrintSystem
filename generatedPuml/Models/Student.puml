@@ -1,0 +1,14 @@
+@startuml
+class Student {
+    + Balance : decimal
+    + StudentID : int <<get>> <<set>>
+    + ClasseID : int <<get>> <<set>>
+    + AccountID : int <<get>> <<set>>
+    + LastName : string <<get>> <<set>>
+    + FirstName : string <<get>> <<set>>
+    + Email : string <<get>> <<set>>
+}
+Student --> "Classe" Classe
+Student --> "Account" Account
+Student --> "DateOfBirth" DateTime
+@enduml

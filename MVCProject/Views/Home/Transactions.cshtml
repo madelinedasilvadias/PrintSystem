@@ -1,0 +1,29 @@
+﻿@model List<MVCProject.Models.TransactionM>
+
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<h1>Transactions</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Student Id</th>
+            <th>Amount</th>
+            <th>Transaction Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.Id</td>
+                <td>@transaction.StudentId</td>
+                <td>@transaction.Amount</td>
+                <td>@transaction.TransactionDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
