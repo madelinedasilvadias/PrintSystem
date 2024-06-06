@@ -1,7 +1,11 @@
-﻿namespace WebAPINormal.Extension
+﻿using DAL.Models;
+using WebAPINormal.Models;
+
+namespace WebAPINormal.Extension
 {
     public static class ConverterExtensions
     {
+        // Conversions pour Student et StudentM
         public static DAL.Models.Student ToDAL(this WebAPINormal.Models.StudentM studentM)
         {
             return new DAL.Models.Student
@@ -25,6 +29,29 @@
                 Email = student.Email,
                 DateOfBirth = student.DateOfBirth,
                 Balance = student.Balance
+            };
+        }
+
+        // Conversions pour Transaction et TransactionM
+        public static DAL.Models.Transaction ToDAL(this WebAPINormal.Models.TransactionM transactionM)
+        {
+            return new DAL.Models.Transaction
+            {
+                TransactionID = transactionM.TransactionID,
+                AccountID = transactionM.AccountID,
+                Date = transactionM.Date,
+                Amount = transactionM.Amount
+            };
+        }
+
+        public static WebAPINormal.Models.TransactionM ToModel(this DAL.Models.Transaction transaction)
+        {
+            return new WebAPINormal.Models.TransactionM
+            {
+                TransactionID = transaction.TransactionID,
+                AccountID = transaction.AccountID,
+                Date = transaction.Date,
+                Amount = transaction.Amount
             };
         }
     }
