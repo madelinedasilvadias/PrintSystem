@@ -1,10 +1,12 @@
-﻿namespace WebAPINormal.Models
+﻿using DAL.Models;
+
+namespace WebAPINormal.Models
 {
     public class TransactionM
     {
-        public int Id { get; set; }
-        public int StudentId { get; set; }
+        public int TransactionID { get; set; }
+        public int AccountID { get; set; }
+        public DateTime Date { get; set; }
         public decimal Amount { get; set; }
-        public DateTime TransactionDate { get; set; }
     }
 }
