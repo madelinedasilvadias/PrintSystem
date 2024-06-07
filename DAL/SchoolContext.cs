@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace DAL
 {
-    public class DigitecContext : DbContext
+    public class SchoolContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Classe> Classes { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
-        public DigitecContext(DbContextOptions<DigitecContext> options) : base(options)
+        public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
         {
         }
 

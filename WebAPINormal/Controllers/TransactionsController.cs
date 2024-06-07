@@ -16,10 +16,10 @@ namespace WebAPINormal.Controllers
     [ApiController]
     public class TransactionsController : ControllerBase
     {
-        private readonly DigitecContext _context;
+        private readonly SchoolContext _context;
         private const decimal PricePerPage = 0.08m;
 
-        public TransactionsController(DigitecContext context)
+        public TransactionsController(SchoolContext context)
         {
             _context = context;
         }
@@ -87,26 +87,20 @@ namespace WebAPINormal.Controllers
         [HttpPost]
         public async Task<ActionResult<Transaction>> PostTransaction(TransactionM transactionM)
         {
-            // Convert TransactionM to Transaction entity
             Transaction transaction = transactionM.ToDAL();
 
-            // Find the account associated with the transaction
             var account = await _context.Accounts.FindAsync(transaction.AccountID);
             if (account == null)
             {
                 return NotFound();
             }
 
-            // Update the account balance
             account.StudentBalance += transaction.Amount;
 
-            // Add the transaction to the context
             _context.Transactions.Add(transaction);
 
-            // Save changes to the context
             await _context.SaveChangesAsync();
 
-            // Convert back to TransactionM and return
             var transactionM2 = transaction.ToModel();
             return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionID }, transactionM2);
         }

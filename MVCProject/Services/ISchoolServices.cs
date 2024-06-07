@@ -4,7 +4,7 @@ using MVCProject.Models;
 
 namespace MVCProject.Services
 {
-    public interface IDigitecServices
+    public interface ISchoolServices
     {
         Task<List<StudentM>> GetStudents();
         Task<StudentM> GetStudent(int id);

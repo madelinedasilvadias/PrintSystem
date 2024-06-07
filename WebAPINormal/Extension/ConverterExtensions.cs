@@ -5,7 +5,6 @@ namespace WebAPINormal.Extension
 {
     public static class ConverterExtensions
     {
-        // Conversions pour Student et StudentM
         public static DAL.Models.Student ToDAL(this WebAPINormal.Models.StudentM studentM)
         {
             return new DAL.Models.Student
@@ -32,7 +31,6 @@ namespace WebAPINormal.Extension
             };
         }
 
-        // Conversions pour Transaction et TransactionM
         public static DAL.Models.Transaction ToDAL(this WebAPINormal.Models.TransactionM transactionM)
         {
             return new DAL.Models.Transaction
