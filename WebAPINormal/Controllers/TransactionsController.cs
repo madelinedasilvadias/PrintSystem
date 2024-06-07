@@ -17,6 +17,7 @@ namespace WebAPINormal.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly DigitecContext _context;
+        private const decimal PricePerPage = 0.08m;
 
         public TransactionsController(DigitecContext context)
         {
@@ -141,6 +142,37 @@ namespace WebAPINormal.Controllers
             }
 
             return account.StudentBalance;
+        }
+        // POST: api/Transactions/Print
+        [HttpPost("print")]
+        public async Task<ActionResult> Print(PrintRequestM printRequest)
+        {
+            var account = await _context.Accounts.FindAsync(printRequest.AccountID);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            var cost = printRequest.NumberOfPages * PricePerPage;
+            if (account.StudentBalance < cost)
+            {
+                return BadRequest("Insufficient balance");
+            }
+
+            account.StudentBalance -= cost;
+
+            var transaction = new Transaction
+            {
+                AccountID = printRequest.AccountID,
+                Amount = -cost,
+                Date = DateTime.Now,
+                StudentBalance = account.StudentBalance
+            };
+
+            _context.Transactions.Add(transaction);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
     }

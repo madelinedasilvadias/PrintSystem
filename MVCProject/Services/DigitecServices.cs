@@ -83,5 +83,17 @@ namespace MVCProject.Services
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<decimal>(responseBody);
         }
+        public async Task Print(int accountId, int numberOfPages)
+        {
+            var printRequest = new PrintRequestM
+            {
+                AccountID = accountId,
+                NumberOfPages = numberOfPages
+            };
+
+            var response = await _client.PostAsJsonAsync("https://localhost:7016/api/Transactions/print", printRequest);
+            response.EnsureSuccessStatusCode();
+        }
+
     }
 }
