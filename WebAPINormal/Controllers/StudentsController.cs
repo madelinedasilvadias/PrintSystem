@@ -16,9 +16,9 @@ namespace WebAPINormal.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private readonly DigitecContext _context;
+        private readonly SchoolContext _context;
 
-        public StudentsController(DigitecContext context)
+        public StudentsController(SchoolContext context)
         {
             _context = context;
         }
@@ -34,7 +34,7 @@ namespace WebAPINormal.Controllers
             }
 
             var studentM = student.ToModel();
-            studentM.Balance = studentM.Balance; // Pas besoin de récupérer la balance de l'objet Student
+            studentM.Balance = studentM.Balance; 
             return studentM;
         }
 
@@ -48,7 +48,7 @@ namespace WebAPINormal.Controllers
             {
                 StudentM studentM = new StudentM();
                 studentM = student.ToModel();
-                // Pas besoin de récupérer la balance de l'objet Student
+                
                 ListOfStudentsM.Add(studentM);
             }
             return ListOfStudentsM;
@@ -89,7 +89,6 @@ namespace WebAPINormal.Controllers
         public async Task<ActionResult<Student>> PostStudent(StudentM studentM)
         {
             Student student = studentM.ToDAL();
-            // Ajoutez les informations supplémentaires nécessaires pour le modèle Student
 
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
@@ -97,6 +96,7 @@ namespace WebAPINormal.Controllers
             var studentM2 = student.ToModel();
             return CreatedAtAction(nameof(GetStudent), new { id = student.StudentID }, studentM2);
         }
+
         // POST: api/Students/5/recharge
         [HttpPost("{id}/recharge")]
         public async Task<IActionResult> RechargeAccount(int id, decimal amount)
@@ -109,7 +109,7 @@ namespace WebAPINormal.Controllers
 
             var studentM = student.ToModel();
             studentM.Balance += amount;
-            student.Balance = studentM.Balance; // Mettre à jour la balance de l'objet Student
+            student.Balance = studentM.Balance; 
             _context.Entry(student).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

@@ -9,20 +9,17 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDbContext<DigitecContext>(options =>
+builder.Services.AddDbContext<SchoolContext>(options =>
 {
     options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SchoolProjectDB");
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/s washbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -35,11 +32,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Call Seed method to populate the database
 using (var serviceScope = app.Services.CreateScope())
 {
     var services = serviceScope.ServiceProvider;
-    var context = services.GetRequiredService<DigitecContext>();
+    var context = services.GetRequiredService<SchoolContext>();
     context.Database.EnsureCreated();
     context.Seed();
 }

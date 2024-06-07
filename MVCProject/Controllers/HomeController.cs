@@ -8,12 +8,12 @@ namespace MVCProject.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IDigitecServices _digitecServices;
+        private readonly ISchoolServices _schoolServices;
 
-        public HomeController(ILogger<HomeController> logger, IDigitecServices digitecServices)
+        public HomeController(ILogger<HomeController> logger, ISchoolServices schoolServices)
         {
             _logger = logger;
-            _digitecServices = digitecServices;
+            _schoolServices = schoolServices;
         }
 
         public IActionResult Index()
@@ -23,25 +23,13 @@ namespace MVCProject.Controllers
 
         public async Task<IActionResult> Students()
         {
-            var students = await _digitecServices.GetStudents();
+            var students = await _schoolServices.GetStudents();
             return View(students);
-        }
-
-        public async Task<IActionResult> RechargeAccount(int studentId, decimal amount)
-        {
-            await _digitecServices.RechargeAccount(studentId, amount);
-            return RedirectToAction("StudentDetails", new { id = studentId });
-        }
-
-        public async Task<IActionResult> StudentDetails(int id)
-        {
-            var student = await _digitecServices.GetStudent(id);
-            return View(student);
         }
 
         public async Task<IActionResult> Transactions()
         {
-            var transactions = await _digitecServices.GetTransactions();
+            var transactions = await _schoolServices.GetTransactions();
             return View(transactions);
         }
 
@@ -54,16 +42,16 @@ namespace MVCProject.Controllers
                 Amount = amount,
                 Date = DateTime.Now
             };
-            await _digitecServices.AddTransaction(transaction);
+            await _schoolServices.AddTransaction(transaction);
             return RedirectToAction("Transactions");
         }
 
         [HttpPost]
         public async Task<IActionResult> GetBalance(int accountId)
         {
-            var balance = await _digitecServices.GetBalance(accountId);
+            var balance = await _schoolServices.GetBalance(accountId);
             ViewBag.Balance = balance;
-            var transactions = await _digitecServices.GetTransactions();
+            var transactions = await _schoolServices.GetTransactions();
             return View("Transactions", transactions);
         }
 
@@ -88,7 +76,7 @@ namespace MVCProject.Controllers
         {
             try
             {
-                await _digitecServices.Print(accountId, numberOfPages);
+                await _schoolServices.Print(accountId, numberOfPages);
                 ViewBag.Message = "Print request successful!";
             }
             catch (HttpRequestException ex)

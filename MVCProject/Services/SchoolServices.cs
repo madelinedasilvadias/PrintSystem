@@ -6,13 +6,13 @@ using MVCProject.Models;
 
 namespace MVCProject.Services
 {
-    public class DigitecServices : IDigitecServices
+    public class SchoolServices : ISchoolServices
     {
         private readonly HttpClient _client;
         private readonly string _studentsBaseUrl = "https://localhost:7016/api/Students";
-        private readonly string _transactionsBaseUrl = "https://localhost:7016/api/Transactions"; // URL pour les transactions
+        private readonly string _transactionsBaseUrl = "https://localhost:7016/api/Transactions";
 
-        public DigitecServices(HttpClient client)
+        public SchoolServices(HttpClient client)
         {
             _client = client;
         }
@@ -45,7 +45,7 @@ namespace MVCProject.Services
 
         public async Task<List<TransactionM>> GetTransactions()
         {
-            var response = await _client.GetAsync(_transactionsBaseUrl); // Utilise l'URL correcte pour les transactions
+            var response = await _client.GetAsync(_transactionsBaseUrl); 
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
@@ -91,7 +91,7 @@ namespace MVCProject.Services
                 NumberOfPages = numberOfPages
             };
 
-            var response = await _client.PostAsJsonAsync("https://localhost:7016/api/Transactions/print", printRequest);
+            var response = await _client.PostAsJsonAsync($"{_transactionsBaseUrl}/print", printRequest);
             response.EnsureSuccessStatusCode();
         }
 
