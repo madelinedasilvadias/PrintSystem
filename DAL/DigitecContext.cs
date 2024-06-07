@@ -35,9 +35,9 @@ namespace DAL
         {
             if (!Accounts.Any())
             {
-                var account1 = new Account { StudentBalance = 500 };
-                var account2 = new Account { StudentBalance = 700 };
-                var account3 = new Account { StudentBalance = 1000 };
+                var account1 = new Account { StudentID = 1, StudentBalance = 500 };
+                var account2 = new Account { StudentID = 2, StudentBalance = 700 };
+                var account3 = new Account { StudentID = 3, StudentBalance = 1000 };
                 Accounts.AddRange(account1, account2, account3);
                 SaveChanges();
             }
