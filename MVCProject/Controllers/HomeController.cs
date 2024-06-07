@@ -78,5 +78,25 @@ namespace MVCProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult PrintSystem()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PrintSystem(int accountId, int numberOfPages)
+        {
+            try
+            {
+                await _digitecServices.Print(accountId, numberOfPages);
+                ViewBag.Message = "Print request successful!";
+            }
+            catch (HttpRequestException ex)
+            {
+                ViewBag.Error = "Error: " + ex.Message;
+            }
+
+            return View();
+        }
     }
 }

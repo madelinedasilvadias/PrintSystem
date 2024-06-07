@@ -12,5 +12,6 @@ namespace MVCProject.Services
         Task RechargeAccount(int studentId, decimal amount);
         Task AddTransaction(TransactionM transaction);
         Task<decimal> GetBalance(int accountId);
+        Task Print(int accountId, int numberOfPages);
     }
 }
