@@ -75,5 +75,13 @@ namespace MVCProject.Services
             var response = await _client.PostAsJsonAsync($"{_studentsBaseUrl}/{studentId}/recharge", new { amount });
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task<decimal> GetBalance(int accountId) // Implémentez cette méthode
+        {
+            var response = await _client.GetAsync($"{_studentsBaseUrl}/balance/{accountId}");
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<decimal>(responseBody);
+        }
     }
 }

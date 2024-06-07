@@ -61,11 +61,12 @@ namespace MVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> GetBalance(int accountId)
         {
-            var student = await _digitecServices.GetStudent(accountId);
-            ViewBag.Balance = student.Balance;
+            var balance = await _digitecServices.GetBalance(accountId);
+            ViewBag.Balance = balance;
             var transactions = await _digitecServices.GetTransactions();
             return View("Transactions", transactions);
         }
+
 
         public IActionResult Privacy()
         {
