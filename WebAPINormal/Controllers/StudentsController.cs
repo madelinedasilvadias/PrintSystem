@@ -136,5 +136,17 @@ namespace WebAPINormal.Controllers
         {
             return _context.Students.Any(e => e.StudentID == id);
         }
+        [HttpGet("balance/{accountId}")]
+        public async Task<ActionResult<decimal>> GetBalance(int accountId)
+        {
+            var account = await _context.Accounts.FindAsync(accountId);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return account.StudentBalance;
+        }
+
     }
 }
