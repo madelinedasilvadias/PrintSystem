@@ -1,0 +1,8 @@
+@startuml
+class ConverterExtensions <<static>> {
+    + {static} ToDAL(studentM:WebAPINormal.Models.StudentM) : DAL.Models.Student
+    + {static} ToModel(student:DAL.Models.Student) : WebAPINormal.Models.StudentM
+    + {static} ToDAL(transactionM:WebAPINormal.Models.TransactionM) : DAL.Models.Transaction
+    + {static} ToModel(transaction:DAL.Models.Transaction) : WebAPINormal.Models.TransactionM
+}
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+class HomeController {
+    + HomeController(logger:ILogger<HomeController>, schoolServices:ISchoolServices)
+    + Index() : IActionResult
+    + <<async>> Students() : Task<IActionResult>
+    + <<async>> Transactions() : Task<IActionResult>
+    + <<async>> AddAmount(amount:decimal, accountId:int) : Task<IActionResult>
+    + <<async>> GetBalance(accountId:int) : Task<IActionResult>
+    + Privacy() : IActionResult
+    + Error() : IActionResult
+    + PrintSystem() : IActionResult
+    + <<async>> PrintSystem(accountId:int, numberOfPages:int) : Task<IActionResult>
+}
+class "ILogger`1"<T> {
+}
+Controller <|-- HomeController
+HomeController --> "_logger<HomeController>" "ILogger`1"
+HomeController --> "_schoolServices" ISchoolServices
+@enduml
