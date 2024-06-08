@@ -34,7 +34,7 @@ namespace WebAPINormal.Controllers
             }
 
             var studentM = student.ToModel();
-            studentM.Balance = studentM.Balance; 
+            studentM.Balance = studentM.Balance;
             return studentM;
         }
 
@@ -48,7 +48,7 @@ namespace WebAPINormal.Controllers
             {
                 StudentM studentM = new StudentM();
                 studentM = student.ToModel();
-                
+
                 ListOfStudentsM.Add(studentM);
             }
             return ListOfStudentsM;
@@ -86,8 +86,13 @@ namespace WebAPINormal.Controllers
 
         // POST: api/Students
         [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(StudentM studentM)
+        public async Task<ActionResult<StudentM>> PostStudent(StudentM studentM)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             Student student = studentM.ToDAL();
 
             _context.Students.Add(student);
@@ -109,7 +114,7 @@ namespace WebAPINormal.Controllers
 
             var studentM = student.ToModel();
             studentM.Balance += amount;
-            student.Balance = studentM.Balance; 
+            student.Balance = studentM.Balance;
             _context.Entry(student).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
@@ -136,6 +141,7 @@ namespace WebAPINormal.Controllers
         {
             return _context.Students.Any(e => e.StudentID == id);
         }
+
         [HttpGet("balance/{accountId}")]
         public async Task<ActionResult<decimal>> GetBalance(int accountId)
         {
@@ -147,6 +153,5 @@ namespace WebAPINormal.Controllers
 
             return account.StudentBalance;
         }
-
     }
 }
