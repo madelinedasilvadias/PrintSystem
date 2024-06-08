@@ -1,0 +1,11 @@
+@startuml
+interface ISchoolServices {
+    GetStudents() : Task<List<StudentM>>
+    GetStudent(id:int) : Task<StudentM>
+    GetTransactions() : Task<List<TransactionM>>
+    RechargeAccount(studentId:int, amount:decimal) : Task
+    AddTransaction(transaction:TransactionM) : Task
+    GetBalance(accountId:int) : Task<decimal>
+    Print(accountId:int, numberOfPages:int) : Task
+}
+@enduml

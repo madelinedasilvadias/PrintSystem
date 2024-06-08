@@ -1,0 +1,15 @@
+@startuml
+class SchoolContext {
+    + SchoolContext(options:DbContextOptions<SchoolContext>)
+    # <<override>> OnConfiguring(optionsBuilder:DbContextOptionsBuilder) : void
+    # <<override>> OnModelCreating(modelBuilder:ModelBuilder) : void
+    + Seed() : void
+}
+class "DbSet`1"<T> {
+}
+DbContext <|-- SchoolContext
+SchoolContext --> "Accounts<Account>" "DbSet`1"
+SchoolContext --> "Classes<Classe>" "DbSet`1"
+SchoolContext --> "Students<Student>" "DbSet`1"
+SchoolContext --> "Transactions<Transaction>" "DbSet`1"
+@enduml

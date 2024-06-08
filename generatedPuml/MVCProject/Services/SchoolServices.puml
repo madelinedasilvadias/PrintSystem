@@ -1,0 +1,17 @@
+@startuml
+class SchoolServices {
+    - <<readonly>> _studentsBaseUrl : string = "https://localhost:7016/api/Students"
+    - <<readonly>> _transactionsBaseUrl : string = "https://localhost:7016/api/Transactions"
+    + SchoolServices(client:HttpClient)
+    + <<async>> GetStudents() : Task<List<StudentM>>
+    + <<async>> GetStudent(id:int) : Task<StudentM>
+    + <<async>> GetTransactions() : Task<List<TransactionM>>
+    + <<async>> AddTransaction(transaction:TransactionM) : Task
+    + <<async>> PostStudent(student:StudentM) : void
+    + <<async>> RechargeAccount(studentId:int, amount:decimal) : Task
+    + <<async>> GetBalance(accountId:int) : Task<decimal>
+    + <<async>> Print(accountId:int, numberOfPages:int) : Task
+}
+ISchoolServices <|-- SchoolServices
+SchoolServices --> "_client" HttpClient
+@enduml

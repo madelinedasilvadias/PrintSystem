@@ -1,0 +1,15 @@
+@startuml
+class StudentsController {
+    + StudentsController(context:SchoolContext)
+    + <<async>> GetStudent(id:int) : Task<ActionResult<StudentM>>
+    + <<async>> GetStudents() : Task<ActionResult<IEnumerable<StudentM>>>
+    + <<async>> PutStudent(id:int, student:Student) : Task<IActionResult>
+    + <<async>> PostStudent(studentM:StudentM) : Task<ActionResult<Student>>
+    + <<async>> RechargeAccount(id:int, amount:decimal) : Task<IActionResult>
+    + <<async>> DeleteStudent(id:int) : Task<IActionResult>
+    - StudentExists(id:int) : bool
+    + <<async>> GetBalance(accountId:int) : Task<ActionResult<decimal>>
+}
+ControllerBase <|-- StudentsController
+StudentsController --> "_context" SchoolContext
+@enduml

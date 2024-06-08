@@ -1,0 +1,16 @@
+@startuml
+class TransactionsController {
+    - <<const>> PricePerPage : decimal = 0.08m
+    + TransactionsController(context:SchoolContext)
+    + <<async>> GetTransaction(id:int) : Task<ActionResult<TransactionM>>
+    + <<async>> GetTransactions() : Task<ActionResult<IEnumerable<TransactionM>>>
+    + <<async>> PutTransaction(id:int, transaction:Transaction) : Task<IActionResult>
+    + <<async>> PostTransaction(transactionM:TransactionM) : Task<ActionResult<Transaction>>
+    + <<async>> DeleteTransaction(id:int) : Task<IActionResult>
+    - TransactionExists(id:int) : bool
+    + <<async>> GetBalance(accountId:int) : Task<ActionResult<decimal>>
+    + <<async>> Print(printRequest:PrintRequestM) : Task<ActionResult>
+}
+ControllerBase <|-- TransactionsController
+TransactionsController --> "_context" SchoolContext
+@enduml

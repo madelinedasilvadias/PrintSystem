@@ -1,0 +1,8 @@
+@startuml
+class TransactionM {
+    + TransactionID : int <<get>> <<set>>
+    + AccountID : int <<get>> <<set>>
+    + Amount : decimal <<get>> <<set>>
+}
+TransactionM --> "Date" DateTime
+@enduml

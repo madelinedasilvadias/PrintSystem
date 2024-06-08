@@ -1,0 +1,6 @@
+@startuml
+class PrintRequestM {
+    + AccountID : int <<get>> <<set>>
+    + NumberOfPages : int <<get>> <<set>>
+}
+@enduml
