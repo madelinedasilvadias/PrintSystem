@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using MVCProject.Models;
 using System.Diagnostics;
 using MVCProject.Services;
-using System.Threading.Tasks;
 
 namespace MVCProject.Controllers
 {
@@ -56,22 +55,6 @@ namespace MVCProject.Controllers
             return View("Transactions", transactions);
         }
 
-        [HttpGet]
-        public IActionResult AddStudent()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddStudent(StudentM student)
-        {
-            if (ModelState.IsValid)
-            {
-                await _schoolServices.AddStudent(student);
-                return RedirectToAction("Students");
-            }
-            return View(student);
-        }
 
         public IActionResult Privacy()
         {
@@ -83,7 +66,6 @@ namespace MVCProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
         public IActionResult PrintSystem()
         {
             return View();
