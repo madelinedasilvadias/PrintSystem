@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging; // Ensure this using directive is present
 using DAL;
 using DAL.Models;
 using WebAPINormal.Extension;
@@ -18,12 +17,10 @@ namespace WebAPINormal.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly SchoolContext _context;
-        private readonly ILogger<StudentsController> _logger;
 
-        public StudentsController(SchoolContext context, ILogger<StudentsController> logger) // Inject the logger
+        public StudentsController(SchoolContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
         // GET: api/Students/5
@@ -45,9 +42,16 @@ namespace WebAPINormal.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentM>>> GetStudents()
         {
-            var listOfStudents = await _context.Students.ToListAsync();
-            var listOfStudentsM = listOfStudents.Select(student => student.ToModel()).ToList();
-            return listOfStudentsM;
+            var ListOfStudents = await _context.Students.ToListAsync();
+            List<StudentM> ListOfStudentsM = new List<StudentM>();
+            foreach (Student student in ListOfStudents)
+            {
+                StudentM studentM = new StudentM();
+                studentM = student.ToModel();
+
+                ListOfStudentsM.Add(studentM);
+            }
+            return ListOfStudentsM;
         }
 
         // PUT: api/Students/5
@@ -86,30 +90,13 @@ namespace WebAPINormal.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("Invalid model state");
                 return BadRequest(ModelState);
             }
 
-            // Check if AccountID exists
-            var account = await _context.Accounts.FindAsync(studentM.AccountID);
-            if (account == null)
-            {
-                _logger.LogError($"AccountID {studentM.AccountID} does not exist");
-                return BadRequest("The provided AccountID does not exist.");
-            }
-
-            var student = studentM.ToDAL();
+            Student student = studentM.ToDAL();
 
             _context.Students.Add(student);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error saving student to the database");
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while saving the student");
-            }
+            await _context.SaveChangesAsync();
 
             var studentM2 = student.ToModel();
             return CreatedAtAction(nameof(GetStudent), new { id = student.StudentID }, studentM2);

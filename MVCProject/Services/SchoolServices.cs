@@ -68,24 +68,14 @@ namespace MVCProject.Services
 
         public async Task AddStudent(StudentM student)
         {
-            try
+            var response = await _client.PostAsJsonAsync(_studentsBaseUrl, student);
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await _client.PostAsJsonAsync(_studentsBaseUrl, student);
-                if (!response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    _logger.LogError($"Error adding student: {content}");
-                    response.EnsureSuccessStatusCode(); // This will throw an exception with the response details.
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception occurred while adding student");
-                throw;
+                var responseBody = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"Error adding student: {responseBody}");
+                response.EnsureSuccessStatusCode();
             }
         }
-
-
 
         public async Task RechargeAccount(int studentId, decimal amount)
         {
