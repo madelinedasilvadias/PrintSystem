@@ -63,14 +63,31 @@ namespace MVCProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddStudent(StudentM student)
+        public async Task<IActionResult> AddStudent(StudentM newStudent)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _schoolServices.AddStudent(student);
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    _logger.LogError(error.ErrorMessage);
+                }
+
+                var students = await _schoolServices.GetStudents();
+                return View("Students", students);
+            }
+
+            try
+            {
+                await _schoolServices.AddStudent(newStudent);
                 return RedirectToAction("Students");
             }
-            return View(student);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding student");
+
+                var students = await _schoolServices.GetStudents();
+                return View("Students", students);
+            }
         }
 
         public IActionResult Privacy()
