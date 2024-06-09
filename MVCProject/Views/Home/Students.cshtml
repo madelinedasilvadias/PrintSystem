@@ -14,7 +14,6 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Date of Birth</th>
-            <th>Account ID</th>
         </tr>
     </thead>
     <tbody>
@@ -26,7 +25,6 @@
                 <td>@student.LastName</td>
                 <td>@student.Email</td>
                 <td>@student.DateOfBirth.ToShortDateString()</td>
-                <td>@student.AccountID</td>
             </tr>
         }
     </tbody>
@@ -34,26 +32,22 @@
 
 <h2>Add Student</h2>
 
-<form asp-action="AddStudent" method="post" class="form-horizontal">
+<form asp-action="AddStudent" method="post" class="form-inline">
     <div class="form-group">
-        <label for="FirstName" class="control-label">First Name:</label>
+        <label for="FirstName">First Name:</label>
         <input type="text" class="form-control" id="FirstName" name="FirstName" required />
     </div>
     <div class="form-group">
-        <label for="LastName" class="control-label">Last Name:</label>
+        <label for="LastName">Last Name:</label>
         <input type="text" class="form-control" id="LastName" name="LastName" required />
     </div>
     <div class="form-group">
-        <label for="Email" class="control-label">Email:</label>
+        <label for="Email">Email:</label>
         <input type="email" class="form-control" id="Email" name="Email" required />
     </div>
     <div class="form-group">
-        <label for="DateOfBirth" class="control-label">Date of Birth:</label>
+        <label for="DateOfBirth">Date of Birth:</label>
         <input type="date" class="form-control" id="DateOfBirth" name="DateOfBirth" required />
-    </div>
-    <div class="form-group">
-        <label for="AccountID" class="control-label">Account ID:</label>
-        <input type="number" class="form-control" id="AccountID" name="AccountID" required />
     </div>
     <button type="submit" class="btn btn-primary">Add Student</button>
 </form>
