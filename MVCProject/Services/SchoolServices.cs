@@ -3,22 +3,18 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MVCProject.Models;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
 namespace MVCProject.Services
 {
     public class SchoolServices : ISchoolServices
     {
         private readonly HttpClient _client;
-        private readonly ILogger<SchoolServices> _logger;
         private readonly string _studentsBaseUrl = "https://localhost:7016/api/Students";
         private readonly string _transactionsBaseUrl = "https://localhost:7016/api/Transactions";
 
-        public SchoolServices(HttpClient client, ILogger<SchoolServices> logger)
+        public SchoolServices(HttpClient client)
         {
             _client = client;
-            _logger = logger;
         }
 
         public async Task<List<StudentM>> GetStudents()
@@ -49,7 +45,7 @@ namespace MVCProject.Services
 
         public async Task<List<TransactionM>> GetTransactions()
         {
-            var response = await _client.GetAsync(_transactionsBaseUrl);
+            var response = await _client.GetAsync(_transactionsBaseUrl); 
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
@@ -66,15 +62,12 @@ namespace MVCProject.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task AddStudent(StudentM student)
+        public async void PostStudent(StudentM student)
         {
             var response = await _client.PostAsJsonAsync(_studentsBaseUrl, student);
-            if (!response.IsSuccessStatusCode)
-            {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                _logger.LogError($"Error adding student: {responseBody}");
-                response.EnsureSuccessStatusCode();
-            }
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseBody);
         }
 
         public async Task RechargeAccount(int studentId, decimal amount)
@@ -83,14 +76,13 @@ namespace MVCProject.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task<decimal> GetBalance(int accountId)
+        public async Task<decimal> GetBalance(int accountId) // Implémentez cette méthode
         {
             var response = await _client.GetAsync($"{_studentsBaseUrl}/balance/{accountId}");
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<decimal>(responseBody);
         }
-
         public async Task Print(int accountId, int numberOfPages)
         {
             var printRequest = new PrintRequestM
@@ -102,5 +94,6 @@ namespace MVCProject.Services
             var response = await _client.PostAsJsonAsync($"{_transactionsBaseUrl}/print", printRequest);
             response.EnsureSuccessStatusCode();
         }
+
     }
 }
