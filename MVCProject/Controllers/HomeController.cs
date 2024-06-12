@@ -86,5 +86,28 @@ namespace MVCProject.Controllers
 
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteStudent(int id)
+        {
+            await _schoolServices.DeleteStudent(id);
+            return RedirectToAction("Students");
+        }
+
+        public async Task<IActionResult> DisplayStudent(int id)
+        {
+            var student = await _schoolServices.GetStudent(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View("StudentDetails", student);
+        }
+        public async Task<IActionResult> AllStudents()
+        {
+            var students = await _schoolServices.GetStudents();
+            return View(students);
+        }
+
+
     }
 }
