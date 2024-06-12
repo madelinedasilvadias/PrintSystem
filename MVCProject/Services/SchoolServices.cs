@@ -94,6 +94,12 @@ namespace MVCProject.Services
             var response = await _client.PostAsJsonAsync($"{_transactionsBaseUrl}/print", printRequest);
             response.EnsureSuccessStatusCode();
         }
+        public async Task DeleteStudent(int id)
+        {
+            var response = await _client.DeleteAsync($"{_studentsBaseUrl}/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+        
 
     }
 }

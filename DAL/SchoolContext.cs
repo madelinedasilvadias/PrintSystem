@@ -7,6 +7,7 @@ namespace DAL
 {
     public class SchoolContext : DbContext
     {
+        //Permet d'intéragir avec les tables de la BD
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Classe> Classes { get; set; }
         public DbSet<Student> Students { get; set; }
@@ -15,22 +16,22 @@ namespace DAL
         public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
         {
         }
-
+        // Configuration de la connexion à la BD
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SchoolProjectDB");
         }
-
+        // Configuration des relations entre les entités 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.Account)
-                .WithMany() // Si la relation est Many-to-One, sinon utiliser WithOne() pour One-to-One
+                .WithMany() 
                 .HasForeignKey(s => s.AccountID);
         }
 
 
-        // Method to seed data into the database
+        // Méthode pour initialiser la BD avec des données 
         public void Seed()
         {
             if (!Accounts.Any())
@@ -52,7 +53,7 @@ namespace DAL
 
             if (!Students.Any())
             {
-                // Ajoutez les étudiants avec des AccountID existants
+                // Ajoutez les étudiants
                 var accountIds = Accounts.Select(a => a.AccountID).ToList();
                 var student1 = new Student { FirstName = "John", LastName = "Doe", DateOfBirth = new DateTime(2000, 1, 1), ClasseID = 1, AccountID = accountIds[0], Email = "john.doe@example.com" };
                 var student2 = new Student { FirstName = "Alice", LastName = "Smith", DateOfBirth = new DateTime(2001, 2, 2), ClasseID = 1, AccountID = accountIds[1], Email = "alice.smith@example.com" };
