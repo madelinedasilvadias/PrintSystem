@@ -55,10 +55,13 @@ namespace DAL
             {
                 // Ajoutez les étudiants
                 var accountIds = Accounts.Select(a => a.AccountID).ToList();
-                var student1 = new Student { FirstName = "John", LastName = "Doe", DateOfBirth = new DateTime(2000, 1, 1), ClasseID = 1, AccountID = accountIds[0], Email = "john.doe@example.com" };
-                var student2 = new Student { FirstName = "Alice", LastName = "Smith", DateOfBirth = new DateTime(2001, 2, 2), ClasseID = 1, AccountID = accountIds[1], Email = "alice.smith@example.com" };
-                var student3 = new Student { FirstName = "Bob", LastName = "Johnson", DateOfBirth = new DateTime(2002, 3, 3), ClasseID = 2, AccountID = accountIds[2], Email = "bob.johnson@example.com" };
-                Students.AddRange(student1, student2, student3);
+                var student1 = new Student { FirstName = "Leonardo", LastName = "DiCaprio", DateOfBirth = new DateTime(1974, 11, 11), ClasseID = 1, AccountID = accountIds[0], Email = "leonardo.dicaprio@hollywood.com" };
+                var student2 = new Student { FirstName = "Scarlett", LastName = "Johansson", DateOfBirth = new DateTime(1984, 11, 22), ClasseID = 2, AccountID = accountIds[1], Email = "scarlett.johansson@hollywood.com" };
+                var student3 = new Student { FirstName = "Robert", LastName = "Downey Jr.", DateOfBirth = new DateTime(1965, 4, 4), ClasseID = 2, AccountID = accountIds[2], Email = "robert.downeyjr@hollywood.com" };
+                var student4 = new Student { FirstName = "Nicole", LastName = "Kidman", DateOfBirth = new DateTime(1967, 6, 20), ClasseID = 1, AccountID = accountIds[0], Email = "nicole.kidman@hollywood.com" };
+                var student5 = new Student { FirstName = "Brad", LastName = "Pitt", DateOfBirth = new DateTime(1963, 12, 18), ClasseID = 1, AccountID = accountIds[1], Email = "brad.pitt@hollywood.com" };
+                var student6 = new Student { FirstName = "Tom", LastName = "Cruise", DateOfBirth = new DateTime(1962, 7, 3), ClasseID = 2, AccountID = accountIds[2], Email = "tom.cruise@hollywood.com" };
+                Students.AddRange(student1, student2, student3, student4, student5, student6);
                 SaveChanges();
             }
 
